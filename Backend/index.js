@@ -26,8 +26,8 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-  origin: "http://localhost:5173",  // frontend ka url
-  credentials: true,                // allow cookies & headers
+  origin: ["http://localhost:5173", "https://frontend-5vfpe3rjq-nikhil-shuklas-projects.vercel.app"], // Add Vercel frontend URL
+  credentials: true, // Allow cookies & headers
 }));
 app.use(morgan('dev')); // For showing API logs (GET / POST / etc.)
 
