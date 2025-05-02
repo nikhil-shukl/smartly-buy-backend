@@ -12,7 +12,7 @@ import authRoutes from './routes/authRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
 import aboutUsRoutes from './routes/aboutUsRoutes.js';
 import heroicRoute from './routes/heroicRoute.js';
-
+import compareContentRoute from './routes/compareContentRoute.js';
 import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
 
@@ -41,6 +41,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api', aboutUsRoutes); 
 app.use('/api/heroic', heroicRoute);
+app.use('/api/compare', compareContentRoute);
 
 // Test Route
 app.get('/', (req, res) => {
