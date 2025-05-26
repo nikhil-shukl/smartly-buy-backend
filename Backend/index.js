@@ -1,19 +1,18 @@
+
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import connectDB from './config/db.js';
 import { WebSocketServer } from 'ws';  // Correct import for WebSocketServer
 
-import productRoutes from './routes/productRoutes.js';
 import blogRoutes from './routes/blogRoutes.js';
-import newsRoutes from './routes/newsRoutes.js';
 import contactRoutes from './routes/contactRoutes.js';
-import authRoutes from './routes/authRoutes.js';
-import adminRoutes from './routes/adminRoutes.js';
+
 import aboutUsRoutes from './routes/aboutUsRoutes.js';
 import heroicRoute from './routes/heroicRoute.js';
 import compareContentRoute from './routes/compareContentRoute.js';
 import affiliateDisclosureRoutes from "./routes/affiliateDisclosureRoutes.js";
+import phoneRoutes from "./routes/phoneRoutes.js";
 import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
 
@@ -37,16 +36,17 @@ app.use(cors({
 app.use(morgan('dev')); // For showing API logs (GET / POST / etc.)
 
 // API Routes
-app.use('/api/products', productRoutes);
 app.use('/api/blogs', blogRoutes);
-app.use('/api/news', newsRoutes);
 app.use('/api/contact', contactRoutes);
-app.use('/api/auth', authRoutes);
-app.use('/api/admin', adminRoutes);
 app.use('/api', aboutUsRoutes); 
 app.use('/api/heroic', heroicRoute);
 app.use('/api/compare', compareContentRoute);
 app.use("/api/disclosure", affiliateDisclosureRoutes);
+app.get('/api/test-phone', (req, res) => {
+  res.json({ message: "✅ Test Phone Route working!" });
+});
+
+app.use('/api/phones', phoneRoutes);
 
 // Test Route
 app.get('/', (req, res) => {

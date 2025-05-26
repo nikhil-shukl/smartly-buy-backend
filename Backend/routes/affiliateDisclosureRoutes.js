@@ -1,4 +1,3 @@
-// routes/affiliateDisclosureRoutes.js
 import express from "express";
 import { getAffiliateDisclosure, createOrUpdateAffiliateDisclosure } from "../controllers/affiliateDisclosureController.js";
 
