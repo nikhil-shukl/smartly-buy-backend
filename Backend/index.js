@@ -13,6 +13,7 @@ import heroicRoute from './routes/heroicRoute.js';
 import compareContentRoute from './routes/compareContentRoute.js';
 import affiliateDisclosureRoutes from "./routes/affiliateDisclosureRoutes.js";
 import phoneRoutes from "./routes/phoneRoutes.js";
+import laptopRoutes from "./routes/laptopRoutes.js";
 import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
 
@@ -42,11 +43,8 @@ app.use('/api', aboutUsRoutes);
 app.use('/api/heroic', heroicRoute);
 app.use('/api/compare', compareContentRoute);
 app.use("/api/disclosure", affiliateDisclosureRoutes);
-app.get('/api/test-phone', (req, res) => {
-  res.json({ message: "✅ Test Phone Route working!" });
-});
-
 app.use('/api/phones', phoneRoutes);
+app.use("/api/laptops", laptopRoutes);
 
 // Test Route
 app.get('/', (req, res) => {
