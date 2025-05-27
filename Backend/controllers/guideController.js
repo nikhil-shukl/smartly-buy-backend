@@ -1,14 +1,18 @@
 import Guide from "../models/Guide.js";
 import slugify from "slugify";
 
-export const getAllGuides = async (req, res) => {
+export const getGuideBySlug = async (req, res) => {
   try {
-    const guides = await Guide.find({}, "-content");
-    res.json({ success: true, guides });
+    const guide = await Guide.findOne({ slug: req.params.slug });
+    if (!guide) {
+      return res.status(404).json({ success: false, message: "Guide not found" });
+    }
+    res.json({ success: true, guide });
   } catch (err) {
     res.status(500).json({ success: false, message: "Server error" });
   }
 };
+
 
 export const getSingleGuide = async (req, res) => {
   try {
