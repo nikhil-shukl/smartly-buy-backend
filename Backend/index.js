@@ -15,6 +15,7 @@ import affiliateDisclosureRoutes from "./routes/affiliateDisclosureRoutes.js";
 import phoneRoutes from "./routes/phoneRoutes.js";
 import laptopRoutes from "./routes/laptopRoutes.js";
 import earbudRoutes from "./routes/earbudRoutes.js";
+import guideRoutes from "./routes/guideRoutes.js";
 import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
 
@@ -47,6 +48,7 @@ app.use("/api/disclosure", affiliateDisclosureRoutes);
 app.use('/api/phones', phoneRoutes);
 app.use("/api/laptops", laptopRoutes);
 app.use("/api/earbuds", earbudRoutes);
+app.use("/api/guides", guideRoutes);
 // Test Route
 app.get('/', (req, res) => {
   res.send('✅ API is working fine...');
