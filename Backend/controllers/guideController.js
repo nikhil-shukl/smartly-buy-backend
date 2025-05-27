@@ -1,36 +1,36 @@
-import Guide from "../models/Guide.js";
-import slugify from "slugify";
+import Guide from "../models/guideModel.js";
 
-export const getGuideBySlug = async (req, res) => {
+// Get all guides
+export const getAllGuides = async (req, res) => {
+  try {
+    const guides = await Guide.find();
+    res.json({ success: true, guides });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+// Get single guide by slug
+export const getSingleGuide = async (req, res) => {
   try {
     const guide = await Guide.findOne({ slug: req.params.slug });
     if (!guide) {
       return res.status(404).json({ success: false, message: "Guide not found" });
     }
     res.json({ success: true, guide });
-  } catch (err) {
+  } catch (error) {
     res.status(500).json({ success: false, message: "Server error" });
   }
 };
 
-
-export const getSingleGuide = async (req, res) => {
-  try {
-    const guide = await Guide.findOne({ slug: req.params.slug });
-    if (!guide) return res.status(404).json({ success: false, message: "Guide not found" });
-    res.json({ success: true, guide });
-  } catch (err) {
-    res.status(500).json({ success: false, message: "Server error" });
-  }
-};
-
+// Create guide (for admin use)
 export const createGuide = async (req, res) => {
   try {
-    const slug = slugify(req.body.title, { lower: true });
-    const newGuide = new Guide({ ...req.body, slug });
+    const newGuide = new Guide(req.body);
     await newGuide.save();
     res.status(201).json({ success: true, guide: newGuide });
-  } catch (err) {
-    res.status(500).json({ success: false, message: "Server error" });
+  } catch (error) {
+    res.status(400).json({ success: false, message: "Failed to create guide" });
   }
 };
+

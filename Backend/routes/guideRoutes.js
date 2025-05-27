@@ -1,9 +1,10 @@
 import express from "express";
-import { getGuideBySlug } from "../controllers/guideController.js";
+import { getAllGuides, getSingleGuide, createGuide } from "../controllers/guideController.js";
 
 const router = express.Router();
 
-router.get("/:slug", getGuideBySlug);
+router.get("/", getAllGuides);
+router.get("/:slug", getSingleGuide);
+router.post("/", createGuide);
 
 export default router;
-
