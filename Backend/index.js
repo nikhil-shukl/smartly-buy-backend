@@ -5,12 +5,9 @@ import cors from 'cors';
 import connectDB from './config/db.js';
 import { WebSocketServer } from 'ws';  // Correct import for WebSocketServer
 
-import blogRoutes from './routes/blogRoutes.js';
 import contactRoutes from './routes/contactRoutes.js';
 
 import aboutUsRoutes from './routes/aboutUsRoutes.js';
-import heroicRoute from './routes/heroicRoute.js';
-import compareContentRoute from './routes/compareContentRoute.js';
 import affiliateDisclosureRoutes from "./routes/affiliateDisclosureRoutes.js";
 import phoneRoutes from "./routes/phoneRoutes.js";
 import laptopRoutes from "./routes/laptopRoutes.js";
@@ -39,11 +36,8 @@ app.use(cors({
 app.use(morgan('dev')); // For showing API logs (GET / POST / etc.)
 
 // API Routes
-app.use('/api/blogs', blogRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api', aboutUsRoutes); 
-app.use('/api/heroic', heroicRoute);
-app.use('/api/compare', compareContentRoute);
 app.use("/api/disclosure", affiliateDisclosureRoutes);
 app.use('/api/phones', phoneRoutes);
 app.use("/api/laptops", laptopRoutes);
