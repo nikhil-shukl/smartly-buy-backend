@@ -13,6 +13,7 @@ import phoneRoutes from "./routes/phoneRoutes.js";
 import laptopRoutes from "./routes/laptopRoutes.js";
 import earbudRoutes from "./routes/earbudRoutes.js";
 import guideRoutes from "./routes/guideRoutes.js";
+import homeRoutes from './routes/homeRoutes.js';
 import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
 
@@ -35,7 +36,9 @@ app.use(cors({
 }));
 app.use(morgan('dev')); // For showing API logs (GET / POST / etc.)
 
-// API Routes
+// API 
+
+app.use('/api/home', homeRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api', aboutUsRoutes); 
 app.use("/api/disclosure", affiliateDisclosureRoutes);
