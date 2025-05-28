@@ -1,4 +1,3 @@
-// routes/homeRoutes.js
 import express from 'express';
 import {
   getHeroContent,
@@ -8,8 +7,8 @@ import {
 
 const router = express.Router();
 
-router.get('/', getHeroContent);
-router.get('/', getHomeCards);
+router.get('/hero', getHeroContent);
+router.get('/home', getHomeCards);
 router.get('/:slug', getHomeCardDetail);
 
 export default router;
