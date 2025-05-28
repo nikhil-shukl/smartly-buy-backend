@@ -5,10 +5,22 @@ const guideSchema = new mongoose.Schema({
   description: String,
   image: String,
   slug: { type: String, unique: true },
-  content: String, // full guide HTML
+  content: String,
   metaTitle: String,
   metaDescription: String,
+  products: [
+    {
+      rank: Number,
+      name: String,
+      image: String,
+      pros: [String],
+      cons: [String],
+      verdict: String,
+      affiliateLink: String
+    }
+  ],
   createdAt: { type: Date, default: Date.now }
 });
+
 
 export default mongoose.model("Guide", guideSchema);
