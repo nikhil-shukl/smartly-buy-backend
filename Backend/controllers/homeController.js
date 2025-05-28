@@ -19,7 +19,7 @@ export const getHomeCards = async (req, res) => {
   }
 };
 
-export const getHomeCardDetail = async (req, res) => {
+export const getHomeDetailed = async (req, res) => {
   try {
     const { slug } = req.params;
     const card = await HomeContent.findOne({ slug });
