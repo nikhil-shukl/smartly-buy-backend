@@ -1,31 +1,35 @@
-// controllers/homeController.js
-import HomeContent from '../models/homeModel.js';
+import Home from "../models/homeModel.js";
 
-export const getHeroContent = async (req, res) => {
+// Get all home entries (for admin or future multiple layouts)
+export const getAllHomes = async (req, res) => {
   try {
-    const hero = await HomeContent.find({ isHero: true }).limit(1);
-    res.status(200).json(hero);
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to load hero section' });
+    const homes = await Home.find();
+    res.json({ success: true, homes });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server error" });
   }
 };
 
-export const getHomeCards = async (req, res) => {
+// Get single home layout by slug (like /home or /homepage-v2)
+export const getSingleHome = async (req, res) => {
   try {
-    const cards = await HomeContent.find({ isHero: false }).limit(14).sort({ createdAt: -1 });
-    res.status(200).json(cards);
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to load home cards' });
+    const home = await Home.findOne({ slug: req.params.slug });
+    if (!home) {
+      return res.status(404).json({ success: false, message: "Home layout not found" });
+    }
+    res.json({ success: true, home });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server error" });
   }
 };
 
-export const getHomeDetailed = async (req, res) => {
+// Create a new home layout (admin only)
+export const createHome = async (req, res) => {
   try {
-    const { slug } = req.params;
-    const card = await HomeContent.findOne({ slug });
-    if (!card) return res.status(404).json({ error: 'Content not found' });
-    res.status(200).json(card);
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to fetch detail' });
+    const newHome = new Home(req.body);
+    await newHome.save();
+    res.status(201).json({ success: true, home: newHome });
+  } catch (error) {
+    res.status(400).json({ success: false, message: "Failed to create home layout" });
   }
 };

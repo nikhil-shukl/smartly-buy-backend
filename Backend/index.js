@@ -38,7 +38,7 @@ app.use(morgan('dev')); // For showing API logs (GET / POST / etc.)
 
 // API 
 
-app.use('/api', homeRoutes);
+app.use('/api/home', homeRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api', aboutUsRoutes); 
 app.use("/api/disclosure", affiliateDisclosureRoutes);

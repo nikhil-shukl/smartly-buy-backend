@@ -1,22 +1,15 @@
-// models/homeModel.js
-import mongoose from 'mongoose';
-import slugify from 'slugify';
+// models/homeModel.jsimport mongoose from "mongoose";
+import mongoose from "mongoose";
 
-const homeCardSchema = new mongoose.Schema({
-  title: { type: String, required: true },
-  description: String,
-  image: { type: String, required: true },
-  slug: { type: String, unique: true },
-  content: { type: String, required: true },
+const homeSchema = new mongoose.Schema({
+  title: String, // Main title of the homepage content (like a guide)
+  description: String, // Short SEO-friendly description
+  image: String, // Hero image
+  slug: { type: String, unique: true }, // For route like /home or future custom slugs
+  content: String, // Full HTML content for homepage body (editable later)
   metaTitle: String,
   metaDescription: String,
-  isHero: { type: Boolean, default: false }, // ✅ Important for filtering
-  category: {
-    type: String,
-    enum: ['Smartphones', 'Laptops', 'Earbuds'],
-    required: true,
-  },
-  products: [
+  products: [ // Featured or trending products (Guide-style)
     {
       rank: Number,
       name: String,
@@ -24,15 +17,24 @@ const homeCardSchema = new mongoose.Schema({
       pros: [String],
       cons: [String],
       verdict: String,
-      affiliateLink: { type: String, default: 'soon' },
+      affiliateLink: String
+    }
+  ],
+  featuredCategories: [ // Homepage category cards
+    {
+      name: String,
+      image: String,
+      link: String
+    }
+  ],
+  latestBlogs: [ // Shown on homepage but content from Blog API
+    {
+      title: String,
+      slug: String,
+      image: String
     }
   ],
   createdAt: { type: Date, default: Date.now }
 });
 
-homeCardSchema.pre('save', function (next) {
-  this.slug = slugify(this.title, { lower: true });
-  next();
-});
-
-export default mongoose.model('HomeContent', homeCardSchema);
+export default mongoose.model("Home", homeSchema);
