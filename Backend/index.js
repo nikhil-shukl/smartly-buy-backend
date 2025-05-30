@@ -9,11 +9,13 @@ import contactRoutes from './routes/contactRoutes.js';
 
 import aboutUsRoutes from './routes/aboutUsRoutes.js';
 import affiliateDisclosureRoutes from "./routes/affiliateDisclosureRoutes.js";
+import privacyPolicyRoutes from './routes/privacyPolicyRoutes.js';
+import termsConditionsRoutes from './routes/termsConditionsRoutes.js';
 import phoneRoutes from "./routes/phoneRoutes.js";
 import laptopRoutes from "./routes/laptopRoutes.js";
 import earbudRoutes from "./routes/earbudRoutes.js";
 import guideRoutes from "./routes/guideRoutes.js";
-import homeRoutes from './routes/homeRoutes.js';
+import productRoutes from "./routes/productRoutes.js";
 import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
 
@@ -38,10 +40,12 @@ app.use(morgan('dev')); // For showing API logs (GET / POST / etc.)
 
 // API 
 
-app.use('/api/home', homeRoutes);
+app.use('/api/products', productRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api', aboutUsRoutes); 
 app.use("/api/disclosure", affiliateDisclosureRoutes);
+app.use('/api/privacy-policy', privacyPolicyRoutes);
+app.use('/api/terms-conditions', termsConditionsRoutes);
 app.use('/api/phones', phoneRoutes);
 app.use("/api/laptops", laptopRoutes);
 app.use("/api/earbuds", earbudRoutes);
