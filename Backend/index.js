@@ -1,12 +1,15 @@
-
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import connectDB from './config/db.js';
-import { WebSocketServer } from 'ws';  // Correct import for WebSocketServer
+import cookieParser from 'cookie-parser';
+import morgan from 'morgan';
+import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
+import mongoSanitize from 'express-mongo-sanitize';
 
+// Route Imports
 import contactRoutes from './routes/contactRoutes.js';
-
 import aboutUsRoutes from './routes/aboutUsRoutes.js';
 import affiliateDisclosureRoutes from "./routes/affiliateDisclosureRoutes.js";
 import privacyPolicyRoutes from './routes/privacyPolicyRoutes.js';
@@ -16,30 +19,40 @@ import laptopRoutes from "./routes/laptopRoutes.js";
 import earbudRoutes from "./routes/earbudRoutes.js";
 import guideRoutes from "./routes/guideRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
-import cookieParser from 'cookie-parser';
-import morgan from 'morgan';
 
 dotenv.config();
 
-// Connect Database
+// ✅ Connect to MongoDB
 connectDB();
 
 const app = express();
 
-// Middlewares
+// 🔐 Security Middlewares
+app.use(helmet());
+app.use(mongoSanitize()); // Prevent NoSQL injection
+
+// 🛡️ Rate Limiting
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 min
+  max: 200, // adjust if needed
+  message: "Too many requests from this IP, please try again later.",
+});
+app.use(limiter);
+
+// 🔧 General Middlewares
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-  origin: ["http://localhost:5173", 
-           "https://frontend-5vfpe3rjq-nikhil-shuklas-projects.vercel.app",
-           "https://www.techtrendydeals.com"
-          ], // Add Vercel frontend URL
-  credentials: true, // Allow cookies & headers
+  origin: [
+    "http://localhost:5173",
+    "https://frontend-5vfpe3rjq-nikhil-shuklas-projects.vercel.app",
+    "https://www.techtrendydeals.com"
+  ],
+  credentials: true,
 }));
-app.use(morgan('dev')); // For showing API logs (GET / POST / etc.)
+app.use(morgan('dev'));
 
-// API 
-
+// 🚀 API Routes
 app.use('/api/products', productRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api', aboutUsRoutes); 
@@ -50,37 +63,26 @@ app.use('/api/phones', phoneRoutes);
 app.use("/api/laptops", laptopRoutes);
 app.use("/api/earbuds", earbudRoutes);
 app.use("/api/guides", guideRoutes);
-// Test Route
+
+// ✅ Test Route
 app.get('/', (req, res) => {
   res.send('✅ API is working fine...');
 });
 
-// 404 Error Handling
-app.use((req, res, next) => {
+// ❌ 404 Handler
+app.use((req, res) => {
   res.status(404).json({ message: 'Route not found' });
 });
 
-// WebSocket server setup
-const wss = new WebSocketServer({ noServer: true });  // Corrected the import
-
-wss.on('connection', (ws) => {
-  console.log('A new client connected');
-  
-  ws.on('message', (message) => {
-    console.log('Received:', message);
-  });
-
-  ws.send('Welcome to the WebSocket server');
+// ❗ 500 Handler
+app.use((err, req, res, next) => {
+  console.error("💥 Error:", err.stack);
+  res.status(500).json({ message: "Something went wrong on the server!" });
 });
 
-// Handle WebSocket upgrade requests
-app.server = app.listen(process.env.PORT || 5000, () => {
-  
-});
-
-app.server.on('upgrade', (request, socket, head) => {
-  wss.handleUpgrade(request, socket, head, (ws) => {
-    wss.emit('connection', ws, request);
-  });
+// 🌐 Start Server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`✅ Server running on port ${PORT}`);
 });
 
