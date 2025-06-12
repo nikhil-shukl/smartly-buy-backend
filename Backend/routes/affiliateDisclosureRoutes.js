@@ -1,17 +1,9 @@
-// routes/affiliateDisclosureRoutes.js
 import express from "express";
-import {
-  getAffiliateDisclosureBySlug,
-  createOrUpdateAffiliateDisclosure
-} from "../controllers/affiliateDisclosureController.js";
+import { getAffiliateDisclosure, createOrUpdateAffiliateDisclosure } from "../controllers/affiliateDisclosureController.js";
 
 const router = express.Router();
 
-// ✅ GET by slug (e.g. /api/disclosure/affiliate-disclosure)
-router.get("/:slug", getAffiliateDisclosureBySlug);
-
-// ✅ POST to create/update (admin usage)
-router.post("/", createOrUpdateAffiliateDisclosure);
+router.get("/", getAffiliateDisclosure);
+router.post("/", createOrUpdateAffiliateDisclosure); // For manual update via Postman
 
 export default router;
-
