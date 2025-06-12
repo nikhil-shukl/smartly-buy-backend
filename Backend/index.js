@@ -6,7 +6,7 @@ import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
-import mongoSanitize from 'express-mongo-sanitize';
+// import mongoSanitize from 'express-mongo-sanitize';
 
 // Route Imports
 import contactRoutes from './routes/contactRoutes.js';
@@ -29,7 +29,7 @@ const app = express();
 
 // 🔐 Security Middlewares
 app.use(helmet());
-app.use(mongoSanitize()); // Prevent NoSQL injection
+// app.use(mongoSanitize()); // Prevent NoSQL injection
 
 // 🛡️ Rate Limiting
 const limiter = rateLimit({
